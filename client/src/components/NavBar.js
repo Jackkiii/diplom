@@ -14,7 +14,7 @@ const NavBar = observer(() => {
                 <NavLink style={{color: 'white', textDecoration: 'none'}} to={LOGIN_ROUTE}>Личный кабинет. Публикации</NavLink>
                 {user.isAuth ?
                     <Nav className="ml-auto">
-                        <Button variant={'outline-secondary'} style={{color: 'white'}}>Админ панель</Button>
+                        <Button variant={'outline-secondary'} style={{color: 'black'}}>Админ панель</Button>
                         <Button variant={'outline-secondary'} style={{color: 'white', marginLeft: '10px'}}>Выйти</Button>
                     </Nav>
                     :
