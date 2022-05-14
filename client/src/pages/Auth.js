@@ -2,7 +2,6 @@ import React from 'react';
 import {Container, Form} from "react-bootstrap";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
-import Row from "react-bootstrap/Row";
 import {NavLink, useLocation} from "react-router-dom";
 import {LOGIN_ROUTE, REGISTRATION_ROUTE} from "../utils/consts";
 
@@ -26,9 +25,9 @@ const Auth = () => {
                         className="mt-3"
                         placeholder="Введите пароль..."
                     />
-                    <Row className="d-flex justify-content-between mt-3 pl-3 pr-3">
+                    <div className="d-flex justify-content-between align-items-center mt-3 pl-3 pr-3">
                         {isLogin ?
-                            <div>
+                            <div style={{width: 'auto'}}>
                                 Нет аккаунта? <NavLink to={REGISTRATION_ROUTE}>Зарегистрируйтесь</NavLink>
                             </div>
                             :
@@ -41,7 +40,7 @@ const Auth = () => {
                         >
                             {isLogin ? 'Войти' : 'Зарегистрироваться'}
                         </Button>
-                    </Row>
+                    </div>
                 </Form>
             </Card>
         </Container>

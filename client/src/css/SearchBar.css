@@ -1,0 +1,27 @@
+.list-group-item {
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.form-control:focus {
+    color: #212529;
+    background-color: #fff;
+    border-color: #86b7fe;
+    outline: 0;
+    box-shadow: none;
+}
+
+label.form-label {
+    margin: 0 10px 0 ;
+}
+
+
+input.form-control {
+    width: 210px;
+}
+
+.list-group-item:first-child{
+    justify-content: center;
+}
