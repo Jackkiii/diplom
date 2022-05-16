@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useContext, useEffect} from 'react';
 import {Container} from "react-bootstrap";
 import Row from "react-bootstrap/Row"
 import Col from "react-bootstrap/Col";
@@ -6,9 +6,18 @@ import SearchFilterBar from "../components/SearchFilterBar";
 import {observer} from "mobx-react-lite";
 import RowSearchName from "../components/RowSearchName";
 import BlockAllPublications from "../components/BlockAllPublications";
+import {Context} from "../index";
+import {fetchCategories, fetchGroups} from "../http/publicationAPI";
 
 
 const PublicationList = observer( () => {
+    const {publication} = useContext(Context)
+
+    useEffect(() => {
+        fetchCategories().then(data => publication.setCategories(data))
+        fetchGroups().then(data => publication.setGroup(data))
+    },[])
+
     return (
         <Container>
             <Row className="mt-4">

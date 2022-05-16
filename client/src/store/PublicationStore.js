@@ -2,12 +2,8 @@ import {makeAutoObservable} from "mobx";
 
 export default class PublicationStore {
     constructor() {
-        this._category = [
-            {id: 1, name: 'Категория 1'},
-            {id: 2, name: 'Категория 2'},
-            {id: 3, name: 'Категория 3'},
-            {id: 4, name: 'Категория 4'}
-        ]
+        this._category = []
+        this._group = []
         this._dates = [
             {name: 2000},
             {name: 2001},
@@ -36,6 +32,10 @@ export default class PublicationStore {
         this._dates = publications
     }
 
+    setGroup(group){
+        this._group = group
+    }
+
     get category(){
         return this._category
     }
@@ -46,5 +46,9 @@ export default class PublicationStore {
 
     get publications(){
         return this._publications
+    }
+
+    get group(){
+        return this._group
     }
 }

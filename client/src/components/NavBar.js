@@ -2,14 +2,25 @@ import React, {useContext, useState} from 'react';
 import {Context} from "../index";
 import {Nav, Navbar} from "react-bootstrap"
 import {Container, Button} from "react-bootstrap";
-import {NavLink} from "react-router-dom"
+import {NavLink, useHistory} from "react-router-dom"
 import {LOGIN_ROUTE} from "../utils/consts";
 import {observer} from "mobx-react-lite";
 import AdminPanel from "./modals/AdminPanel";
+import {userLogOut} from "../http/userAPI";
 
 const NavBar = observer(() => {
     const {user} = useContext(Context)
     const [adminPanelVisible, setAdminPanelVisible] = useState(false)
+    const history = useHistory()
+
+    const logOut = async () => {
+        let data;
+        data = await userLogOut()
+        user.setUser({})
+        user.setIsAuth(false)
+        history.push(LOGIN_ROUTE)
+    }
+
     return (
         <Navbar variant="dark" style={{backgroundColor: '#212529'}}>
             <Container>
@@ -22,11 +33,21 @@ const NavBar = observer(() => {
                             onClick={() => setAdminPanelVisible(true)}
                         >Админ панель</Button>
                         <AdminPanel show={adminPanelVisible} onHide={() => setAdminPanelVisible(false)}/>
-                        <Button variant={'outline-secondary'} style={{color: 'white', boxShadow: "none", marginLeft: '10px'}}>Выйти</Button>
+                        <Button
+                            variant={'outline-secondary'}
+                            style={{color: 'white', boxShadow: "none", marginLeft: '10px'}}
+                            onClick={logOut}
+                        >
+                            Выйти</Button>
                     </Nav>
                     :
                     <Nav className="ml-auto" style={{color: 'white'}}>
-                        <Button variant={'outline-secondary'} style={{color: 'white', boxShadow: "none"}} onClick={() => user.setIsAuth(true)}>Авторизация</Button>
+                        <Button
+                            variant={'outline-secondary'}
+                            style={{color: 'white', boxShadow: "none"}}
+                            onClick={() => history.push(LOGIN_ROUTE)}
+                        > 
+                            Авторизация</Button>
                     </Nav>
                 }
             </Container>

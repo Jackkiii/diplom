@@ -1,13 +1,43 @@
-import React from 'react';
-import {Container, Form} from "react-bootstrap";
-import Card from "react-bootstrap/Card";
-import Button from "react-bootstrap/Button";
-import {NavLink, useLocation} from "react-router-dom";
-import {LOGIN_ROUTE, REGISTRATION_ROUTE} from "../utils/consts";
+import React, {useContext, useEffect, useState} from 'react';
+import {Container, Form, Button, Card} from "react-bootstrap";
+import {NavLink, useLocation, useHistory} from "react-router-dom";
+import {LOGIN_ROUTE, PERSONALCABINET_ROUTE, PUBLICATIONLIST_ROUTE, REGISTRATION_ROUTE} from "../utils/consts";
+import {fetchRole, login, registration} from "../http/userAPI";
+import {observer} from "mobx-react-lite";
+import {Context} from "../index";
 
-const Auth = () => {
+
+const Auth = observer(() => {
+    const {user} = useContext(Context)
     const location = useLocation()
+    const history = useHistory()
     const isLogin = location.pathname === LOGIN_ROUTE
+    const [email, setEmail] = useState('')
+    const [password, setPassword] = useState('')
+
+    const click = async () => {
+        try {
+            let data;
+            if (isLogin){
+                data = await login(email, password)
+            } else {
+                data = await registration(email, password)
+            }
+            console.log(user)
+            user.setUser(user)
+            user.setIsAuth(true)
+            console.log(user.role)
+            console.log(user)
+            if (user.role === 'ADMIN'){
+                history.push(PUBLICATIONLIST_ROUTE)
+            } else {
+                history.push(PERSONALCABINET_ROUTE)
+            }
+        } catch (e) {
+            alert(e.response.data.message)
+        }
+
+    }
 
     return (
         <Container
@@ -20,12 +50,17 @@ const Auth = () => {
                     <Form.Control
                         className="mt-3"
                         placeholder="Введите email..."
+                        value={email}
+                        onChange={e => setEmail(e.target.value)}
                     />
                     <Form.Control
                         className="mt-3"
                         placeholder="Введите пароль..."
+                        type="password"
+                        value={password}
+                        onChange={e => setPassword(e.target.value)}
                     />
-                    <div className="d-flex justify-content-between align-items-center mt-3 pl-3 pr-3">
+                    <div className="d-flex justify-content-between align-items-center mt-3">
                         {isLogin ?
                             <div style={{width: 'auto'}}>
                                 Нет аккаунта? <NavLink to={REGISTRATION_ROUTE}>Зарегистрируйтесь</NavLink>
@@ -37,6 +72,7 @@ const Auth = () => {
                         }
                         <Button
                             variant="outline-primary"
+                            onClick={click}
                         >
                             {isLogin ? 'Войти' : 'Зарегистрироваться'}
                         </Button>
@@ -45,6 +81,6 @@ const Auth = () => {
             </Card>
         </Container>
     );
-};
+});
 
 export default Auth;

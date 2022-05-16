@@ -5,8 +5,8 @@ class CategoryController {
     async create(req, res, next){
         try {
             const {name} = req.body
-            if (name) {
-                return next(ApiError.badRequest('Ошибка: такая категория уже существует'))
+            if (!name) {
+                return next(ApiError.badRequest('Ошибка: пустая строка'))
             }
             const category = await Category.create({name})
             return res.json(category)

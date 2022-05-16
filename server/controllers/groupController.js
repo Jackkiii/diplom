@@ -8,7 +8,7 @@ class GroupController {
             const group = await Group.create({name})
             return res.json(group)
         } catch (e) {
-            return next(ApiError.badRequest('Ошибка: такая группа уже существует'))
+            next(ApiError.badRequest('Ошибка при добавлении группы'))
         }
     }
 

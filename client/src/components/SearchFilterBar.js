@@ -29,8 +29,14 @@ const SearchFilterBar = observer( () => {
                 <Form.Control/>
             </ListGroup.Item>
             <ListGroup.Item>
-                <Form.Label>Группа: </Form.Label>
-                <Form.Control/>
+                <Dropdown>
+                    <Dropdown.Toggle variant="secondary">Выберите группу</Dropdown.Toggle>
+                    <Dropdown.Menu>
+                        {publication.group.map(gr =>
+                            <Dropdown.Item key={gr.id}>{gr.name}</Dropdown.Item>
+                        )}
+                    </Dropdown.Menu>
+                </Dropdown>
             </ListGroup.Item>
         </ListGroup>
     );

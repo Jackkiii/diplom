@@ -4,6 +4,7 @@ import ListGroup from "react-bootstrap/ListGroup";
 
 const UserInfoBar = () => {
     const {publication} = useContext(Context)
+
     return (
         <ListGroup variant="flush">
             {publication.category.map(cat =>
