@@ -1,0 +1,5 @@
+export const ADMIN_ROUTE = '/admin'
+export const LOGIN_ROUTE = '/login'
+export const REGISTRATION_ROUTE = '/registration'
+export const PERSONALCABINET_ROUTE = '/lk'
+export const PUBLICATIONLIST_ROUTE = '/pl'
