@@ -1,4 +1,4 @@
-.accordion-button:focus {
+/* .accordion-button:focus {
     z-index: 3;
     border-color: #86b7fe;
     outline: 0;
@@ -19,4 +19,14 @@ button.accordion-button {
 
 .accordion-body {
     padding: 10px;
+} */
+
+.customLabel {
+    min-width: 80px;
+}
+
+.customDropdown.show>.btn-primary.dropdown-toggle:focus {
+    border-color: #86b7fe;
+    outline: 0;
+    box-shadow: none;
 }

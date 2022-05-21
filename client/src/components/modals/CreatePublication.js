@@ -3,7 +3,7 @@ import Modal from "react-bootstrap/Modal"
 import {Button, Form, Dropdown} from "react-bootstrap";
 import {Context} from "../../index";
 import 'bootstrap/dist/css/bootstrap.min.css';
-//import '../../css/style.css'
+import '../../css/style.css'
 
 const CreatePublication = ({show, onHide}) => {
     const {publication} = useContext(Context)
@@ -23,8 +23,8 @@ const CreatePublication = ({show, onHide}) => {
             <Modal.Body>
                 <Form className="d-flex flex-column">
                     <div className="d-flex align-items-center flex-row">
-                        <Form.Label style={{marginRight: 8}}>Категория: </Form.Label>
-                        <Dropdown>
+                        <Form.Label className='customLabel' style={{marginRight: 8}}>Категория: </Form.Label>
+                        <Dropdown className='customDropdown'>
                             <Dropdown.Toggle>Выберите категорию публикации</Dropdown.Toggle>
                             <Dropdown.Menu>
                                 {publication.category.map(cat =>
@@ -34,25 +34,25 @@ const CreatePublication = ({show, onHide}) => {
                         </Dropdown>
                     </div>
                     <div className="d-flex align-items-center flex-row" style={{marginTop: 8}}>
-                        <Form.Label style={{marginRight: 8}}>Название: </Form.Label>
+                        <Form.Label className='customLabel' style={{marginRight: 8}}>Название: </Form.Label>
                         <Form.Control
                             placeholder="Введите название публикации..."
                         />
                     </div>
                     <div className="d-flex align-items-center flex-row" style={{marginTop: 8}}>
-                        <Form.Label style={{marginRight: 8}}>Авторы: </Form.Label>
+                        <Form.Label className='customLabel' style={{marginRight: 8}}>Авторы: </Form.Label>
                         <Form.Control
                             placeholder="Введите автора(-ов)..."
                         />
                     </div>
                     <div className="d-flex align-items-center flex-row" style={{marginTop: 8}}>
-                        <Form.Label style={{marginRight: 8}}>Год: </Form.Label>
+                        <Form.Label className='customLabel' style={{marginRight: 8}}>Год: </Form.Label>
                         <Form.Control
                             placeholder="Введите год..."
                         />
                     </div>
                     <div className="d-flex align-items-center flex-row" style={{marginTop: 8}}>
-                        <Form.Label style={{marginRight: 8}}>Файл: </Form.Label>
+                        <Form.Label className='customLabel' style={{marginRight: 8}}>Файл: </Form.Label>
                         <Form.Control
                             type="file"
                             placeholder="Выбрать файл"
