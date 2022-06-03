@@ -12,10 +12,26 @@ const SearchFilterBar = observer( () => {
         <ListGroup variant="flush">
             <ListGroup.Item>
                 <Dropdown>
-                    <Dropdown.Toggle variant="secondary">Выберите тип публикации</Dropdown.Toggle>
+                    <Dropdown.Toggle variant="secondary">{publication.selectedGroup.name || "Выберите группу"}</Dropdown.Toggle>
+                    <Dropdown.Menu>
+                        {publication.group.map(gr =>
+                            <Dropdown.Item
+                                onClick={() => publication.setSelectedGroup(gr)}
+                                key={gr.id}
+                            >{gr.name}</Dropdown.Item>
+                        )}
+                    </Dropdown.Menu>
+                </Dropdown>
+            </ListGroup.Item>
+            <ListGroup.Item>
+                <Dropdown className='customDropdown'>
+                    <Dropdown.Toggle variant="secondary">{publication.selectedCategory.name || "Выберите тип публикации"}</Dropdown.Toggle>
                     <Dropdown.Menu>
                         {publication.category.map(cat =>
-                            <Dropdown.Item key={cat.id}>{cat.name}</Dropdown.Item>
+                            <Dropdown.Item
+                                onClick={() => publication.setSelectedCategory(cat)}
+                                key={cat.id}
+                            >{cat.name}</Dropdown.Item>
                         )}
                     </Dropdown.Menu>
                 </Dropdown>
@@ -27,16 +43,6 @@ const SearchFilterBar = observer( () => {
             <ListGroup.Item>
                 <Form.Label>Год: </Form.Label>
                 <Form.Control/>
-            </ListGroup.Item>
-            <ListGroup.Item>
-                <Dropdown>
-                    <Dropdown.Toggle variant="secondary">Выберите группу</Dropdown.Toggle>
-                    <Dropdown.Menu>
-                        {publication.group.map(gr =>
-                            <Dropdown.Item key={gr.id}>{gr.name}</Dropdown.Item>
-                        )}
-                    </Dropdown.Menu>
-                </Dropdown>
             </ListGroup.Item>
         </ListGroup>
     );

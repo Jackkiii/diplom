@@ -3,17 +3,14 @@ import { Context } from "../index";
 import ListGroup from "react-bootstrap/ListGroup";
 
 const UserInfoBar = () => {
-  const { publication } = useContext(Context);
   const { user } = useContext(Context);
 
   return (
     <ListGroup variant="flush">
-        322
-      <ListGroup.Item>{user.getUser.tel}</ListGroup.Item>
-
-      {publication.category.map((cat) => (
-        <ListGroup.Item key={cat.id}>{cat.name}</ListGroup.Item>
-      ))}
+      <ListGroup.Item>ФИО: {user.getUser.full_name}</ListGroup.Item>
+      <ListGroup.Item>Email: {user.getUser.email}</ListGroup.Item>
+      <ListGroup.Item>Группа: {user.getUser.groupId}</ListGroup.Item>
+      <ListGroup.Item>Телефон: {user.getUser.tel}</ListGroup.Item>
     </ListGroup>
   );
 };

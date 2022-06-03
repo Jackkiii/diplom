@@ -5,11 +5,15 @@ import PublicationItem from "./PublicationItem";
 
 const BlockPublications = observer( () => {
     const {publication} = useContext(Context)
+    console.log(publication.publication)
 
     return (
         <div className="d-flex flex-column">
-            {publication.publications.map(publication =>
-                <PublicationItem key={publication.id} publication={publication}/>
+            {publication.publication.map(publication =>
+                <PublicationItem
+                    key={publication.id}
+                    publication={publication}
+                />
             )}
         </div>
     );

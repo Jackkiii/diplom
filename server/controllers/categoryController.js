@@ -15,6 +15,17 @@ class CategoryController {
         }
     }
 
+    async delete(req, res, next){
+        try {
+            const {name} = req.body
+            const group = await Category.findOne({where: {name}})
+            await group.destroy()
+            return res.json('Категория ' + name + ' удалена')
+        } catch (e) {
+            return next(ApiError.badRequest('Ошибка: такой категории не существует'))
+        }
+    }
+
     async getAll(req, res){
         const categories = await Category.findAll()
         return res.json(categories)

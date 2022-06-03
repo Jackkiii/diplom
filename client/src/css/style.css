@@ -30,3 +30,38 @@ button.accordion-button {
     outline: 0;
     box-shadow: none;
 }
+
+.custom-label-ap {
+    min-width: 210px;
+}
+
+.row-ad {
+    margin-bottom: 8px;
+}
+
+.customDropdown .dropdown-toggle {
+    max-width: 455px;
+    white-space: normal;
+    text-align: left;
+}
+
+.row-search {
+    margin: 8px 0 20px;
+}
+
+.new-publication .dropdown-toggle {
+    max-width: 100%;
+}
+
+.custom-according .accordion-header button{
+    color: #0c63e4;
+    padding: 10px;
+}
+
+.custom-according .accordion-body{
+    padding: 10px;
+}
+
+.custom-according .accordion-button:focus {
+    box-shadow: none;
+}

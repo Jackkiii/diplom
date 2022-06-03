@@ -21,7 +21,6 @@ class GroupController {
         } catch (e) {
             return next(ApiError.badRequest('Ошибка: такой группы не существует'))
         }
-
     }
 
     async getAll(req, res){

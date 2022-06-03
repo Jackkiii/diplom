@@ -7,6 +7,7 @@ const RowSearchName = observer( () => {
     return (
         <div>
             <Form.Control
+                className="row-search"
                 placeholder="Введите название публикации..."
             />
         </div>

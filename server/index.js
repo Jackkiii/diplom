@@ -3,6 +3,7 @@ const express = require('express') //Импортируем express
 const sequelize = require('./db')
 const models = require('./models/models')
 const cors = require('cors')
+const fileUpload = require('express-fileupload')
 const router = require('./routes/index')
 const errorHandler = require('./middleware/ErrorHandlingMiddleware')
 
@@ -11,6 +12,7 @@ const PORT = process.env.PORT || 5000 //Указываем порт на кот�
 const app = express() //Создаем объект
 app.use(cors())
 app.use(express.json()) //Чтобы приложение могло парсить json формат
+app.use(fileUpload({}))
 app.use('/api', router)
 
 //Обработка ошибок, всегда в конце

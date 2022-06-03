@@ -11,12 +11,12 @@ const PublicationItem = ({publication}) => {
             <div>
                 Авторы: {publication.author}
             </div>
-            <Accordion>
+            <Accordion className="custom-according">
                 <Accordion.Item eventKey="0">
                     <Accordion.Header>Больше информации</Accordion.Header>
                     <Accordion.Body>
                         Файл: {publication.file} <br/>
-                        Дополнительная информация: {publication.info}
+                        Год публикации: {publication.date}
                     </Accordion.Body>
                 </Accordion.Item>
             </Accordion>

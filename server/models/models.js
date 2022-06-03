@@ -17,12 +17,12 @@ const Group = sequelize.define('group', {
 
 const Publication = sequelize.define('publication', {
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
-    author: {type: DataTypes.STRING, allowNull: false},
-    name: {type: DataTypes.STRING, unique: true, allowNull: false},
-    date: {type: DataTypes.STRING, allowNull: false},
+    author: {type: DataTypes.STRING},
+    name: {type: DataTypes.STRING, unique: true},
+    date: {type: DataTypes.STRING},
     title: {type: DataTypes.STRING}, //???
     description: {type: DataTypes.STRING}, //???
-    link_file: {type: DataTypes.STRING, allowNull: false},
+    link_file: {type: DataTypes.STRING},
 })
 
 const Category = sequelize.define('category', {

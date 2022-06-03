@@ -3,7 +3,7 @@ import {Context} from "../index";
 import {Nav, Navbar} from "react-bootstrap"
 import {Container, Button} from "react-bootstrap";
 import {NavLink, useHistory} from "react-router-dom"
-import {LOGIN_ROUTE} from "../utils/consts";
+import {LOGIN_ROUTE, PERSONALCABINET_ROUTE, PUBLICATIONLIST_ROUTE} from "../utils/consts";
 import {observer} from "mobx-react-lite";
 import AdminPanel from "./modals/AdminPanel";
 import {userLogOut} from "../http/userAPI";
@@ -12,6 +12,12 @@ const NavBar = observer(() => {
     const {user} = useContext(Context)
     const [adminPanelVisible, setAdminPanelVisible] = useState(false)
     const history = useHistory()
+    let rights = 0
+        if (user.getUser.role === 'ADMIN'){
+            rights = 1
+        } else {
+            rights = 0
+        }
 
     const logOut = async () => {
         let data;

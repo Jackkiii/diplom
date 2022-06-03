@@ -1,14 +1,20 @@
-import React, {useContext, useState} from 'react';
-import {Container, Form, Button, Card} from "react-bootstrap";
+import React, {useContext, useEffect, useState} from 'react';
+import {Container, Form, Button, Card, Dropdown} from "react-bootstrap";
 import {NavLink, useLocation, useHistory} from "react-router-dom";
 import {LOGIN_ROUTE, PERSONALCABINET_ROUTE, PUBLICATIONLIST_ROUTE, REGISTRATION_ROUTE} from "../utils/consts";
 import {login, registration} from "../http/userAPI";
 import {observer} from "mobx-react-lite";
 import {Context} from "../index";
+import {fetchGroups} from "../http/publicationAPI";
 
 
 const Auth = observer(() => {
+    useEffect(() => {
+        fetchGroups().then(data => publication.setGroup(data))
+    },[])
+
     const {user} = useContext(Context)
+    const {publication} = useContext(Context)
     const location = useLocation()
     const history = useHistory()
     const isLogin = location.pathname === LOGIN_ROUTE
@@ -18,13 +24,12 @@ const Auth = observer(() => {
     const [tel, setTel] = useState('')
 
     const click = async () => {
-        console.log('322')
         try {
             let data;
             if (isLogin){
                 data = await login(email, password)
             } else {
-                data = await registration(email, password, full_name, tel)
+                data = await registration(email, password, full_name, tel, publication.selectedGroup.id)
             }
             user.setUser(user)
             user.setIsAuth(true)
@@ -87,6 +92,18 @@ const Auth = observer(() => {
                     value={tel} 
                     onChange={e => setTel(e.target.value)} 
                     />
+
+                    <Dropdown className="m-auto mt-3">
+                        <Dropdown.Toggle variant="secondary">{publication.selectedGroup.name || "Выберите группу"}</Dropdown.Toggle>
+                        <Dropdown.Menu>
+                            {publication.group.map(gr => <Dropdown.Item
+                                    onClick={() => publication.setSelectedGroup(gr)}
+                                    key={gr.id}
+                                >{gr.name}</Dropdown.Item>
+                            )}
+                        </Dropdown.Menu>
+                    </Dropdown>
+
                     </Form>
                 }
                     

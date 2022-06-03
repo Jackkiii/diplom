@@ -4,8 +4,9 @@ const ApiError = require('../error/ApiError');
 class PublicationController {
     async create(req, res, next){
         try {
-            const {userId, name, categoryId, date, link_file} = req.body
-            const publication = await Publication.create({userId, name, categoryId, date, link_file})
+            const {userId, name, categoryId, date, link_file, author} = req.body
+            const publication = await Publication.create({userId: userId, name: name,
+                categoryId: categoryId, date: date, link_file: link_file, author: author})
             return res.json(publication)
         } catch (e) {
             next(ApiError.badRequest(e.message))
@@ -15,7 +16,7 @@ class PublicationController {
     async getAll(req, res){
         let {name, categoryId, date, limit, page} = req.query
         page = page || 1
-        limit = limit || 15
+        limit = limit || 20
 
         let offset = page * limit - limit       //отступ, сколько публикаций нужно пропустить
 
