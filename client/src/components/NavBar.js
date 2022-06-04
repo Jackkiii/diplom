@@ -12,18 +12,13 @@ const NavBar = observer(() => {
     const {user} = useContext(Context)
     const [adminPanelVisible, setAdminPanelVisible] = useState(false)
     const history = useHistory()
-    let rights = 0
-        if (user.getUser.role === 'ADMIN'){
-            rights = 1
-        } else {
-            rights = 0
-        }
 
     const logOut = async () => {
         let data;
         data = await userLogOut()
         user.setUser({})
         user.setIsAuth(false)
+        window.location.reload()
         history.push(LOGIN_ROUTE)
     }
 

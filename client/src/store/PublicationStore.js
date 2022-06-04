@@ -8,12 +8,7 @@ export default class PublicationStore {
         this._selectedGroup = {}
         this._selectedGroupDel = {}
         this._group = []
-        this._dates = [
-            {name: 2000},
-            {name: 2001},
-            {name: 2002},
-            {name: 2003}
-        ]
+        this._dates = []
         this._publication = []
         this._page = 1
         this._totalCount = 0

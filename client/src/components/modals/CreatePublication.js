@@ -30,7 +30,7 @@ const CreatePublication = observer(({show, onHide}) => {
         formData.append('name', name)
         formData.append('date', date)
         formData.append('author', author)
-        //formData.append('link_file', file)
+        formData.append('link_file', file)
         formData.append('categoryId', publication.selectedCategory.id)
         console.log(formData)
         createPublication(formData).then(data => onHide())

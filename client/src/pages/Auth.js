@@ -36,8 +36,10 @@ const Auth = observer(() => {
             console.log(data.role)
             if (data.role === 'ADMIN'){
                 history.push(PUBLICATIONLIST_ROUTE)
+                window.location.reload()
             } else {
                 history.push(PERSONALCABINET_ROUTE)
+                window.location.reload()
             }
         } catch (e) {
             alert(e.response.data.message)

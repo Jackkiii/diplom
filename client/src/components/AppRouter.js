@@ -16,7 +16,7 @@ const AppRouter = () => {
                 <Route key={path} path={path} component={Component} exact/>
             )}
 
-            <Redirect to={LOGIN_ROUTE}/>
+            {<Redirect to={LOGIN_ROUTE}/>}
         </Switch>
     );
 };

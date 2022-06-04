@@ -7,7 +7,7 @@ import {observer} from "mobx-react-lite";
 import RowSearchName from "../components/RowSearchName";
 import BlockAllPublications from "../components/BlockAllPublications";
 import {Context} from "../index";
-import {fetchCategories, fetchGroups} from "../http/publicationAPI";
+import {fetchCategories, fetchGroups, fetchPublication} from "../http/publicationAPI";
 
 
 const PublicationList = observer( () => {
@@ -16,6 +16,7 @@ const PublicationList = observer( () => {
     useEffect(() => {
         fetchCategories().then(data => publication.setCategories(data))
         fetchGroups().then(data => publication.setGroup(data))
+        fetchPublication(null, null, null).then(data => publication.setPublication(data.rows))
     },[])
 
     return (

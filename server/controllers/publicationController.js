@@ -1,13 +1,30 @@
 const {Publication} = require('../models/models')
 const ApiError = require('../error/ApiError');
+const path = require('path')
 
 class PublicationController {
     async create(req, res, next){
         try {
-            const {userId, name, categoryId, date, link_file, author} = req.body
+            const {userId, name, categoryId, date, author} = req.body
+            const {link_file} = req.files
+            let fileName = name + '.pdf'
+            link_file.mv(path.resolve(__dirname, '..', 'uploads', fileName))
             const publication = await Publication.create({userId: userId, name: name,
-                categoryId: categoryId, date: date, link_file: link_file, author: author})
+                categoryId: categoryId, date: date, link_file: fileName, author: author})
             return res.json(publication)
+        } catch (e) {
+            next(ApiError.badRequest(e.message))
+        }
+    }
+
+    async downloadFile(req, res, next) {
+        try{
+            //const {link_file} = req.body
+            const {link_file} = req.params
+            const file = await Publication.findOne({where: {link_file}})
+            const pathFile = path.resolve(__dirname, '..', 'uploads', file.link_file)
+            //return res.json(file.link_file)
+            return res.download(pathFile, file.link_file)
         } catch (e) {
             next(ApiError.badRequest(e.message))
         }
@@ -46,6 +63,18 @@ class PublicationController {
             publication = await Publication.findAndCountAll({where: {name, categoryId, date}, limit, offset})
         }
         return res.json(publication)
+    }
+
+    async getListUserId(req, res, next) {
+        try{
+            let {userId} = req.params
+
+            const publication = await Publication.findAll({where: {userId}})
+
+            return res.json(publication)
+        } catch (e) {
+            next(ApiError.badRequest(e))
+        }
     }
 
     async getOne(req, res){

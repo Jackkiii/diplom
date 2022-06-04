@@ -6,15 +6,16 @@ import UserInfoBar from "../components/UserInfoBar";
 import RowAddPublication from "../components/RowAddPublication";
 import BlockPublications from "../components/BlockPublications";
 import {observer} from "mobx-react-lite";
-import {fetchCategories, fetchPublication} from "../http/publicationAPI";
+import {fetchCategories, fetchPublication, fetchPublicationListUserId} from "../http/publicationAPI";
 import {Context} from "../index";
 
 const PersonalCabinet = observer( () => {
     const {publication} = useContext(Context)
+    const {user} = useContext(Context)
 
     useEffect(() => {
         fetchCategories().then(data => publication.setCategories(data))
-        fetchPublication(null, null, null).then(data => publication.setPublication(data.rows))
+        fetchPublicationListUserId(user.getUser.id).then(data => publication.setPublication(data))
     },[])
 
     return (

@@ -65,3 +65,9 @@ button.accordion-button {
 .custom-according .accordion-button:focus {
     box-shadow: none;
 }
+
+.custom-according span{
+    cursor: pointer;
+    color: #0c63e4;
+    text-decoration: underline;
+}
