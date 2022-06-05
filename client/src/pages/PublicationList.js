@@ -7,17 +7,30 @@ import {observer} from "mobx-react-lite";
 import RowSearchName from "../components/RowSearchName";
 import BlockAllPublications from "../components/BlockAllPublications";
 import {Context} from "../index";
-import {fetchCategories, fetchGroups, fetchPublication} from "../http/publicationAPI";
+import {fetchCategories, fetchPublication} from "../http/publicationAPI";
+import {fetchGroups} from "../http/userAPI";
+import Pages from "../components/Pages";
 
 
 const PublicationList = observer( () => {
     const {publication} = useContext(Context)
+    const {user} = useContext(Context)
 
     useEffect(() => {
         fetchCategories().then(data => publication.setCategories(data))
-        fetchGroups().then(data => publication.setGroup(data))
-        fetchPublication(null, null, null).then(data => publication.setPublication(data.rows))
-    },[])
+        fetchGroups().then(data => user.setGroup(data))
+        fetchPublication(null, null, null, null,1,4).then(data => {
+            publication.setPublication(data.rows)
+            publication.setTotalCount(data.count)
+        })
+    }, [])
+
+    useEffect( () => {
+        fetchPublication(null, publication.selectedCategory.id, publication.selectedDate, null, publication.page,4).then(data => {
+            publication.setPublication(data.rows)
+            publication.setTotalCount(data.count)
+        })
+    },[publication.page, user.page, publication.selectedCategory.id, publication.selectedDate])
 
     return (
         <Container>
@@ -28,6 +41,7 @@ const PublicationList = observer( () => {
                 <Col md={9}>
                     <RowSearchName/>
                     <BlockAllPublications/>
+                    <Pages/>
                 </Col>
             </Row>
         </Container>

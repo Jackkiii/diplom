@@ -1,26 +1,22 @@
 import React, {useContext, useEffect, useState} from 'react';
 import Modal from "react-bootstrap/Modal"
 import {Button, Dropdown, Form} from "react-bootstrap";
-import {
-    createCategory,
-    createGroup,
-    delCategory,
-    delGroup,
-    fetchCategories,
-    fetchGroups
-} from "../../http/publicationAPI";
+import {createCategory, createGroup, delCategory, fetchCategories} from "../../http/publicationAPI";
+import {delGroup, fetchGroups} from "../../http/userAPI";
 import {Context} from "../../index";
 import {observer} from "mobx-react-lite";
 
 const AdminPanel = observer(({show, onHide}) => {
+    const {publication} = useContext(Context)
+    const {user} = useContext(Context)
+
     useEffect(() => {
         fetchCategories().then(data => publication.setCategories(data))
-        fetchGroups().then(data => publication.setGroup(data))
+        fetchGroups().then(data => user.setGroup(data))
     },[])
 
     const [valueCategory, setValueCategory] = useState('')
     const [valueGroup, setValueGroup] = useState('')
-    const {publication} = useContext(Context)
 
     const addCategory = () => {
         createCategory({name: valueCategory}).then(data => {
@@ -43,7 +39,7 @@ const AdminPanel = observer(({show, onHide}) => {
     }
 
     const deleteGroup = () => {
-        delGroup({name: publication.selectedGroup.name}).then(data => {
+        delGroup({name: user.selectedGroup.name}).then(data => {
             console.log('группа удалена')
         })
     }
@@ -112,12 +108,12 @@ const AdminPanel = observer(({show, onHide}) => {
                     <div className="d-flex align-items-center flex-row row-ad">
                         <Form.Label className="custom-label-ap" style={{marginRight: 8}}>Удалить группу: </Form.Label>
                         <Dropdown className='customDropdown'>
-                            <Dropdown.Toggle>{publication.selectedGroupDel.name || "Выберите группу"}</Dropdown.Toggle>
+                            <Dropdown.Toggle>{user.selectedGroupDel.name || "Выберите группу"}</Dropdown.Toggle>
                             <Dropdown.Menu>
-                                {publication.group.map(gr =>
+                                {user.group.map(gr =>
                                     <Dropdown.Item
                                         key={gr.id}
-                                        onClick={() => publication.setSelectedGroupDel(gr)}
+                                        onClick={() => user.setSelectedGroupDel(gr)}
                                     >{gr.name}</Dropdown.Item>
                                 )}
                             </Dropdown.Menu>

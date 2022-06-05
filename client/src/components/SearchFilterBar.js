@@ -1,23 +1,31 @@
-import React, {useContext} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {Context} from "../index";
 import {observer} from "mobx-react-lite";
 import ListGroup from "react-bootstrap/ListGroup";
 import {Dropdown, Form} from "react-bootstrap";
-//import '../css/SearchBar.css'
+import {fetchGroups, fetchListUsersByGroup} from "../http/userAPI";
+import {fetchCategories, fetchPublication, searchByDate} from "../http/publicationAPI";
 
 const SearchFilterBar = observer( () => {
     const {publication} = useContext(Context)
+    const {user} = useContext(Context)
+    const [searchDate, setSearchDate] = useState('')
+
+    //useEffect(() => {
+    //    searchByDate(searchDate).then(data => publication.setSelectedDate(data))
+    //    console.log(publication.selectedDate)
+    //}, [searchDate])
 
     return (
         <ListGroup variant="flush">
             <ListGroup.Item>
                 <Dropdown>
-                    <Dropdown.Toggle variant="secondary">{publication.selectedGroup.name || "Выберите группу"}</Dropdown.Toggle>
+                    <Dropdown.Toggle variant="secondary">{user.selectedGroup.name || "Выберите группу"}</Dropdown.Toggle>
                     <Dropdown.Menu>
-                        {publication.group.map(gr =>
+                        {user.group.map(gr =>
                             <Dropdown.Item
-                                onClick={() => publication.setSelectedGroup(gr)}
                                 key={gr.id}
+                                onClick={() => user.setSelectedGroup(gr)}
                             >{gr.name}</Dropdown.Item>
                         )}
                     </Dropdown.Menu>
@@ -42,7 +50,12 @@ const SearchFilterBar = observer( () => {
             </ListGroup.Item>
             <ListGroup.Item>
                 <Form.Label>Год: </Form.Label>
-                <Form.Control/>
+                <Form.Control
+                    value={searchDate}
+                    onChange={e => {setSearchDate(e.target.value)
+                        publication.setSelectedDate(e.target.value)
+                    }}
+                />
             </ListGroup.Item>
         </ListGroup>
     );

@@ -5,12 +5,12 @@ import {LOGIN_ROUTE, PERSONALCABINET_ROUTE, PUBLICATIONLIST_ROUTE, REGISTRATION_
 import {login, registration} from "../http/userAPI";
 import {observer} from "mobx-react-lite";
 import {Context} from "../index";
-import {fetchGroups} from "../http/publicationAPI";
+import {fetchGroups} from "../http/userAPI";
 
 
 const Auth = observer(() => {
     useEffect(() => {
-        fetchGroups().then(data => publication.setGroup(data))
+        fetchGroups().then(data => user.setGroup(data))
     },[])
 
     const {user} = useContext(Context)
@@ -29,7 +29,7 @@ const Auth = observer(() => {
             if (isLogin){
                 data = await login(email, password)
             } else {
-                data = await registration(email, password, full_name, tel, publication.selectedGroup.id)
+                data = await registration(email, password, full_name, tel, user.selectedGroup.id)
             }
             user.setUser(user)
             user.setIsAuth(true)
@@ -96,10 +96,10 @@ const Auth = observer(() => {
                     />
 
                     <Dropdown className="m-auto mt-3">
-                        <Dropdown.Toggle variant="secondary">{publication.selectedGroup.name || "Выберите группу"}</Dropdown.Toggle>
+                        <Dropdown.Toggle variant="secondary">{user.selectedGroup.name || "Выберите группу"}</Dropdown.Toggle>
                         <Dropdown.Menu>
-                            {publication.group.map(gr => <Dropdown.Item
-                                    onClick={() => publication.setSelectedGroup(gr)}
+                            {user.group.map(gr => <Dropdown.Item
+                                    onClick={() => user.setSelectedGroup(gr)}
                                     key={gr.id}
                                 >{gr.name}</Dropdown.Item>
                             )}

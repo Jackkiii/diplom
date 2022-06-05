@@ -24,28 +24,14 @@ export const createGroup = async (group) => {
     return data
 }
 
-export const delGroup = async (group) => {
-    await $authHost.post('api/group/delete', group)
-}
-
-export const fetchGroups = async () => {
-    const {data} = await $authHost.get('api/group')
-    return data
-}
-
-export const fetchOneGroup = async (id) => {
-    const {data} = await $authHost.get('api/group/' + id)
-    return data
-}
-
 export const createPublication = async (publication) => {
     const {data} = await $authHost.post('api/publication', publication)
     return data
 }
 
-export const fetchPublication = async (name, categoryId, date) => {
+export const fetchPublication = async (name, categoryId, date, groupId, page, limit = 4) => {
     const {data} = await $authHost.get('api/publication', {params: {
-        name, categoryId, date
+        name, categoryId, date, groupId, page, limit
         }})
     return data
 }

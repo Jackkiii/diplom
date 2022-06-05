@@ -5,14 +5,12 @@ export default class PublicationStore {
         this._category = []
         this._selectedCategory = {}
         this._selectedCategoryDel = {}
-        this._selectedGroup = {}
-        this._selectedGroupDel = {}
-        this._group = []
-        this._dates = []
+        this._date = []
+        this._selectedData = []
         this._publication = []
         this._page = 1
         this._totalCount = 0
-        this._limit = 20
+        this._limit = 3
         makeAutoObservable(this)
     }
 
@@ -21,6 +19,7 @@ export default class PublicationStore {
     }
 
     setSelectedCategory(category) {
+        this.setPage(1)
         this._selectedCategory = category
     }
 
@@ -28,24 +27,17 @@ export default class PublicationStore {
         this._selectedCategoryDel = category
     }
 
-    setSelectedGroup(group) {
-        this._selectedGroup = group
+    setDate(date){
+        this._date = date
     }
 
-    setSelectedGroupDel(group) {
-        this._selectedGroupDel = group
-    }
-
-    setDates(dates){
-        this._dates = dates
+    setSelectedDate(date){
+        this.setPage(1)
+        this._selectedData = date
     }
 
     setPublication(publication){
         this._publication = publication
-    }
-
-    setGroup(group){
-        this._group = group
     }
 
     setPage(page) {
@@ -68,24 +60,16 @@ export default class PublicationStore {
         return this._selectedCategoryDel
     }
 
-    get selectedGroup() {
-        return this._selectedGroup
+    get date(){
+        return this._date
     }
 
-    get selectedGroupDel() {
-        return this._selectedGroupDel
-    }
-
-    get dates(){
-        return this._dates
+    get selectedDate(){
+        return this._selectedData
     }
 
     get publication(){
         return this._publication
-    }
-
-    get group(){
-        return this._group
     }
 
     get totalCount() {

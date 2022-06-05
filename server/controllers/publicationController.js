@@ -31,38 +31,91 @@ class PublicationController {
     }
 
     async getAll(req, res){
-        let {name, categoryId, date, limit, page} = req.query
+        let {name, categoryId, date, userId, limit, page} = req.query
         page = page || 1
-        limit = limit || 20
+        limit = limit || 4
 
         let offset = page * limit - limit       //отступ, сколько публикаций нужно пропустить
 
         let publication
-        if (!name && !categoryId && !date){     //---
+        if (!name && !categoryId && !date && !userId){     //----
             publication = await Publication.findAndCountAll({limit, offset})
         }
-        if (name && !categoryId && !date){      //+--
+
+        if (name && !categoryId && !date && !userId){      //+---
             publication = await Publication.findAndCountAll({where: {name}, limit, offset})
         }
-        if (!name && categoryId && !date){      //-+-
+        if (!name && categoryId && !date && !userId){      //-+--
             publication = await Publication.findAndCountAll({where: {categoryId}, limit, offset})
         }
-        if (!name && !categoryId && date){      //--+
+        if (!name && !categoryId && date && !userId){      //--+-
             publication = await Publication.findAndCountAll({where: {date}, limit, offset})
         }
-        if (name && categoryId && !date){       //++-
+        if (!name && !categoryId && !date && userId){      //---+
+            publication = await Publication.findAndCountAll({where: {userId}, limit, offset})
+        }
+
+        if (name && categoryId && !date && !userId){       //++--
             publication = await Publication.findAndCountAll({where: {name, categoryId}, limit, offset})
         }
-        if (!name && categoryId && date){       //-++
-            publication = await Publication.findAndCountAll({where: {categoryId, date}, limit, offset})
-        }
-        if (name && !categoryId && date){       //+-+
+        if (name && !categoryId && date && !userId){       //+-+-
             publication = await Publication.findAndCountAll({where: {name, date}, limit, offset})
         }
-        if (name && categoryId && date){        //+++
+        if (name && !categoryId && !date && userId){       //+--+
+            publication = await Publication.findAndCountAll({where: {name, userId}, limit, offset})
+        }
+        if (!name && categoryId && date && !userId){       //-++-
+            publication = await Publication.findAndCountAll({where: {categoryId, date}, limit, offset})
+        }
+        if (!name && categoryId && !date && userId){       //-+-+
+            publication = await Publication.findAndCountAll({where: {categoryId, userId}, limit, offset})
+        }
+        if (!name && !categoryId && date && userId){       //--++
+            publication = await Publication.findAndCountAll({where: {date, userId}, limit, offset})
+        }
+
+        if (name && categoryId && date && !userId){       //+++-
             publication = await Publication.findAndCountAll({where: {name, categoryId, date}, limit, offset})
         }
+        if (name && !categoryId && date && userId){       //+-++
+            publication = await Publication.findAndCountAll({where: {name, date, userId}, limit, offset})
+        }
+        if (name && categoryId && !date && userId){       //++-+
+            publication = await Publication.findAndCountAll({where: {name, categoryId, userId}, limit, offset})
+        }
+        if (!name && categoryId && date && userId){       //-+++
+            publication = await Publication.findAndCountAll({where: {categoryId, date, userId}, limit, offset})
+        }
+
+        if (name && categoryId && date && userId){        //++++
+            publication = await Publication.findAndCountAll({where: {name, categoryId, date, userId}, limit, offset})
+        }
         return res.json(publication)
+    }
+
+    //async searchByDate(req, res, next) {
+    //    try {
+    //        let {limit, page} = req.query
+    //        page = page || 1
+    //        limit = limit || 4
+    //        let offset = page * limit - limit
+//
+    //        const searchName = req.query
+    //        let publications = await Publication.findAndCountAll(({limit, offset}))
+    //        publications = publications.filter(publications => publications.date.includes(searchName))
+    //        return res.json(publications)
+    //    } catch (e) {
+    //        next(ApiError.badRequest(e))
+    //    }
+    //}
+
+    async getListData(req, res){
+        const {date} = req.params
+        let listDataTmp = await Publication.findAndCountAll()
+        //const listData = await Publication.findAndCountAll({where: {date}})
+        listDataTmp.rows = listDataTmp.rows.filter(listData => listData.date.includes(date))
+        return res.json(listDataTmp)
+        console.log(listDataTmp.rows)
     }
 
     async getListUserId(req, res, next) {

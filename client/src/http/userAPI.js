@@ -23,3 +23,22 @@ export const check = async () => {
     localStorage.setItem('token', data.token)
     return jwt_decode(data.token)
 }
+
+export const delGroup = async (group) => {
+    await $authHost.post('api/group/delete', group)
+}
+
+export const fetchGroups = async () => {
+    const {data} = await $authHost.get('api/group')
+    return data
+}
+
+export const fetchOneGroup = async (id) => {
+    const {data} = await $authHost.get('api/group/' + id)
+    return data
+}
+
+export const fetchListUsersByGroup = async (groupId) => {
+    const {data} = await $authHost.get('api/user/' + groupId)
+    return data
+}
