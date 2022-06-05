@@ -20,9 +20,8 @@ const Publication = sequelize.define('publication', {
     author: {type: DataTypes.STRING},
     name: {type: DataTypes.STRING, unique: true},
     date: {type: DataTypes.STRING},
-    title: {type: DataTypes.STRING}, //???
-    description: {type: DataTypes.STRING}, //???
     link_file: {type: DataTypes.STRING},
+    group_name: {type: DataTypes.STRING},
 })
 
 const Category = sequelize.define('category', {

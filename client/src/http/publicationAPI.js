@@ -29,9 +29,9 @@ export const createPublication = async (publication) => {
     return data
 }
 
-export const fetchPublication = async (name, categoryId, date, groupId, page, limit = 4) => {
+export const fetchPublication = async (name, author, categoryId, date, group_name, page, limit = 4) => {
     const {data} = await $authHost.get('api/publication', {params: {
-        name, categoryId, date, groupId, page, limit
+        name, author, categoryId, date, group_name, page, limit
         }})
     return data
 }

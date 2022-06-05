@@ -5,9 +5,13 @@ export default class PublicationStore {
         this._category = []
         this._selectedCategory = {}
         this._selectedCategoryDel = {}
+        this._author = []
+        this._selectedAuthor = []
         this._date = []
         this._selectedData = []
         this._publication = []
+        this._name = []
+        this._selectedName = []
         this._page = 1
         this._totalCount = 0
         this._limit = 3
@@ -29,6 +33,24 @@ export default class PublicationStore {
 
     setDate(date){
         this._date = date
+    }
+
+    setName(name){
+        this._name = name
+    }
+
+    setSelectedName(name){
+        this.setPage(1)
+        this._selectedName = name
+    }
+
+    setAuthor(author){
+        this._author = author
+    }
+
+    setSelectedAuthor(author){
+        this.setPage(1)
+        this._selectedAuthor = author
     }
 
     setSelectedDate(date){
@@ -64,12 +86,28 @@ export default class PublicationStore {
         return this._date
     }
 
+    get author(){
+        return this._author
+    }
+
+    get selectedAuthor(){
+        return this._selectedAuthor
+    }
+
     get selectedDate(){
         return this._selectedData
     }
 
     get publication(){
         return this._publication
+    }
+
+    get name(){
+        return this._name
+    }
+
+    get selectedName(){
+        return this._selectedName
     }
 
     get totalCount() {

@@ -3,13 +3,12 @@ import {Context} from "../index";
 import {observer} from "mobx-react-lite";
 import ListGroup from "react-bootstrap/ListGroup";
 import {Dropdown, Form} from "react-bootstrap";
-import {fetchGroups, fetchListUsersByGroup} from "../http/userAPI";
-import {fetchCategories, fetchPublication, searchByDate} from "../http/publicationAPI";
 
 const SearchFilterBar = observer( () => {
     const {publication} = useContext(Context)
     const {user} = useContext(Context)
     const [searchDate, setSearchDate] = useState('')
+    const [searchAuthor, setSearchAuthor] = useState('')
 
     //useEffect(() => {
     //    searchByDate(searchDate).then(data => publication.setSelectedDate(data))
@@ -46,7 +45,11 @@ const SearchFilterBar = observer( () => {
             </ListGroup.Item>
             <ListGroup.Item>
                 <Form.Label>Автор: </Form.Label>
-                <Form.Control/>
+                <Form.Control
+                    value={searchAuthor}
+                    onChange={e => {setSearchAuthor(e.target.value)
+                        publication.setSelectedAuthor(e.target.value)
+                    }}/>
             </ListGroup.Item>
             <ListGroup.Item>
                 <Form.Label>Год: </Form.Label>

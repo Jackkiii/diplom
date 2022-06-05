@@ -19,18 +19,18 @@ const PublicationList = observer( () => {
     useEffect(() => {
         fetchCategories().then(data => publication.setCategories(data))
         fetchGroups().then(data => user.setGroup(data))
-        fetchPublication(null, null, null, null,1,4).then(data => {
+        fetchPublication(null,null, null, null, null,1,4).then(data => {
             publication.setPublication(data.rows)
             publication.setTotalCount(data.count)
         })
     }, [])
 
     useEffect( () => {
-        fetchPublication(null, publication.selectedCategory.id, publication.selectedDate, null, publication.page,4).then(data => {
+        fetchPublication(publication.selectedName,  publication.selectedAuthor, publication.selectedCategory.id, publication.selectedDate, user.selectedGroup.id, publication.page,4).then(data => {
             publication.setPublication(data.rows)
             publication.setTotalCount(data.count)
         })
-    },[publication.page, user.page, publication.selectedCategory.id, publication.selectedDate])
+    },[publication.selectedName, publication.page, user.page, publication.selectedCategory.id, publication.selectedDate, publication.selectedAuthor, user.selectedGroup.id])
 
     return (
         <Container>

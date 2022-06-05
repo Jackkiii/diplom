@@ -20,7 +20,7 @@ const PublicationItem = ({publication}) => {
                 {publication.name}
             </div>
             <div>
-                Авторы: {publication.author}<br/>
+                Авторы: <span style={{textDecoration: 'underline', cursor: 'pointer'}}>{publication.author}</span><br/>
                 Тип публикации: {category.name}
             </div>
             <Accordion className="custom-according">

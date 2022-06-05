@@ -5,7 +5,7 @@ import PublicationItem from "./PublicationItem";
 
 const BlockPublications = observer( () => {
     const {publication} = useContext(Context)
-    console.log(publication.publication)
+    //console.log(publication.publication)
 
     return (
         <div className="d-flex flex-column">
