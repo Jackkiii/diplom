@@ -155,7 +155,7 @@ class PublicationController {
         try{
             let {userId} = req.params
 
-            const publication = await Publication.findAll({where: {userId}})
+            const publication = await Publication.findAndCountAll({where: {userId}})
 
             return res.json(publication)
         } catch (e) {

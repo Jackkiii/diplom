@@ -4,25 +4,32 @@ import ListGroup from "react-bootstrap/ListGroup";
 import {fetchOneGroup} from "../http/userAPI";
 import {saveAs} from "file-saver"
 import axios from "axios";
-import {fetchCategories, fetchPublicationListUserId} from "../http/publicationAPI";
+import {fetchPublicationListUserId} from "../http/publicationAPI";
 
 const UserInfoBar = () => {
     const {user} = useContext(Context);
     const {publication} = useContext(Context);
 
     const [group, setGroup] = useState({group: []})
-    let state = {
-        name: user.getUser.full_name,
-        group: group.name,
-        publicationList: fetchPublicationListUserId(user.getUser.id),
-    }
+    const [publicationList, setPublicationList] = useState({})
 
     useEffect(() => {
-        fetchOneGroup(user.getUser.groupId).then(data => setGroup(data))
+        fetchOneGroup(user.getUser.groupId).then(data => {
+            setGroup(data)
+            getPublicationList().then(data => setPublicationList(data))
+        })
     }, [])
+    //console.log(group.name)
 
-    const createAndDownloadPdf = () => {
-        console.log(state.publicationList)
+    const getPublicationList = () => fetchPublicationListUserId(user.getUser.id).then(data => ({
+        name: user.getUser.full_name,
+        group: group.name,
+        userId: user.getUser.id,
+        list: data,
+    }))
+
+    const createAndDownloadPdf = (state) => {
+        console.log(state)
         axios.post('http://localhost:5000/create-pdf', state)
             .then(() => axios.get('http://localhost:5000/fetch-pdf', { responseType: 'blob' }))
             .then((res) => {
@@ -30,6 +37,7 @@ const UserInfoBar = () => {
 
                 saveAs(pdfBlob, 'newPdf.pdf');
             })
+        //console.log(state)
     }
 
   return (
@@ -38,7 +46,8 @@ const UserInfoBar = () => {
       <ListGroup.Item>Email: {user.getUser.email}</ListGroup.Item>
       <ListGroup.Item>Группа: {group.name}</ListGroup.Item>
       <ListGroup.Item>Телефон: {user.getUser.tel}</ListGroup.Item>
-      <ListGroup.Item style={{cursor: 'pointer', textDecoration: 'underline'}} onClick={createAndDownloadPdf}>Скачать список публикаций</ListGroup.Item>
+      <ListGroup.Item style={{cursor: 'pointer', textDecoration: 'underline'}} onClick={createAndDownloadPdf(publicationList)}
+      >Скачать список публикаций</ListGroup.Item>
     </ListGroup>
   );
 };
