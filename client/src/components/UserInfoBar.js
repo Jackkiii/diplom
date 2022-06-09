@@ -10,6 +10,8 @@ const UserInfoBar = () => {
     const {user} = useContext(Context);
     const {publication} = useContext(Context);
 
+    const typeRole = user.getUser.role === 'USER'
+
     const [group, setGroup] = useState({group: []})
     const [publicationList, setPublicationList] = useState({})
 
@@ -42,12 +44,25 @@ const UserInfoBar = () => {
 
   return (
     <ListGroup variant="flush">
-      <ListGroup.Item>ФИО: {user.getUser.full_name}</ListGroup.Item>
-      <ListGroup.Item>Email: {user.getUser.email}</ListGroup.Item>
-      <ListGroup.Item>Группа: {group.name}</ListGroup.Item>
-      <ListGroup.Item>Телефон: {user.getUser.tel}</ListGroup.Item>
-      <ListGroup.Item style={{cursor: 'pointer', textDecoration: 'underline'}} onClick={createAndDownloadPdf(publicationList)}
-      >Скачать список публикаций</ListGroup.Item>
+        {typeRole ?
+            <ListGroup variant="flush">
+                <ListGroup.Item>ФИО: {user.getUser.full_name}</ListGroup.Item>
+                <ListGroup.Item>Email: {user.getUser.email}</ListGroup.Item>
+                <ListGroup.Item>Группа: {group.name}</ListGroup.Item>
+                <ListGroup.Item>Телефон: {user.getUser.tel}</ListGroup.Item>
+            </ListGroup>
+            :
+            <ListGroup variant="flush">
+                <ListGroup.Item>ФИО: {user.getUser.full_name}</ListGroup.Item>
+                <ListGroup.Item>Email: {user.getUser.email}</ListGroup.Item>
+                <ListGroup.Item>Группа: {group.name}</ListGroup.Item>
+                <ListGroup.Item>Телефон: {user.getUser.tel}</ListGroup.Item>
+                <ListGroup.Item
+                style={{cursor: 'pointer', textDecoration: 'underline'}}
+                onClick={createAndDownloadPdf(publicationList)}
+                >Скачать список публикаций</ListGroup.Item>
+            </ListGroup>
+        }
     </ListGroup>
   );
 };

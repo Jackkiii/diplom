@@ -36,6 +36,11 @@ export const fetchPublication = async (name, author, categoryId, date, group_nam
     return data
 }
 
+export const checkPublicationByName = async (name) => {
+    const {data} = await $authHost.get('api/publication/check-name/' + name)
+    return data
+}
+
 export const fetchPublicationListUserId = async (userId) => {
     const {data} = await $authHost.get('api/publication/user/' + userId)
     return data

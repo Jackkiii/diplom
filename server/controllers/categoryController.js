@@ -8,6 +8,10 @@ class CategoryController {
             if (!name) {
                 return next(ApiError.badRequest('Ошибка: пустая строка'))
             }
+            const candidateName = await Category.findOne({where: {name}})
+            if(candidateName) {
+                return next(ApiError.badRequest('Такая категория уже сущестсвует'))
+            }
             const category = await Category.create({name})
             return res.json(category)
         } catch (e) {

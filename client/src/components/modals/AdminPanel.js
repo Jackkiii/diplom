@@ -2,7 +2,7 @@ import React, {useContext, useEffect, useState} from 'react';
 import Modal from "react-bootstrap/Modal"
 import {Button, Dropdown, Form} from "react-bootstrap";
 import {createCategory, createGroup, delCategory, fetchCategories} from "../../http/publicationAPI";
-import {delGroup, fetchGroups} from "../../http/userAPI";
+import {delGroup, fetchGroups, registration, registrationAdmin} from "../../http/userAPI";
 import {Context} from "../../index";
 import {observer} from "mobx-react-lite";
 
@@ -17,6 +17,8 @@ const AdminPanel = observer(({show, onHide}) => {
 
     const [valueCategory, setValueCategory] = useState('')
     const [valueGroup, setValueGroup] = useState('')
+    const [valueLogin, setValueLogin] = useState('')
+    const [valuePassword, setValuePassword] = useState('')
 
     const addCategory = () => {
         createCategory({name: valueCategory}).then(data => {
@@ -42,6 +44,14 @@ const AdminPanel = observer(({show, onHide}) => {
         delGroup({name: user.selectedGroup.name}).then(data => {
             console.log('группа удалена')
         })
+    }
+
+    const createNewAdmin = async () => {
+        try {
+            await registrationAdmin(valueLogin, valuePassword).then(data => onHide())
+        } catch (e) {
+            alert(e)
+        }
     }
 
     return (
@@ -123,7 +133,29 @@ const AdminPanel = observer(({show, onHide}) => {
                             style={{boxShadow: "none", marginLeft: 8}}
                             onClick={deleteGroup}>Удалить</Button>
                     </div>
+
                 </Form>
+            </Modal.Body>
+            <Modal.Body className="custom-modal-body">
+                <div className="d-flex align-items-center flex-row row-ad">
+                    <Form.Label className="custom-label-ap-new-admin" style={{marginRight: 8}}>Добавить нового администратора: </Form.Label>
+                    <Form.Control
+                        className="first-input"
+                        value={valueLogin}
+                        onChange={e => setValueLogin(e.target.value)}
+                        placeholder="Логин..."
+                    />
+                    <Form.Control
+                        type="password"
+                        value={valuePassword}
+                        onChange={e => setValuePassword(e.target.value)}
+                        placeholder="Пароль..."
+                    />
+                    <Button
+                        variant="outline-success"
+                        style={{boxShadow: "none", marginLeft: 8}}
+                        onClick={createNewAdmin}>Добавить</Button>
+                </div>
             </Modal.Body>
             <Modal.Footer>
                 <Button

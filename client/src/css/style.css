@@ -71,3 +71,20 @@ button.accordion-button {
     color: #0c63e4;
     text-decoration: underline;
 }
+
+.custom-modal-body {
+    border-top: 1px solid #dee2e6;
+}
+
+.custom-label-ap-new-admin {
+    margin: 0;
+    min-width: 210px;
+}
+
+.first-input {
+    margin-right: 15px;
+}
+
+.custom-modal-body .row-ad {
+    margin-bottom: 0;
+}

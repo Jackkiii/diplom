@@ -12,6 +12,8 @@ const NavBar = observer(() => {
     const {user} = useContext(Context)
     const [adminPanelVisible, setAdminPanelVisible] = useState(false)
     const history = useHistory()
+    const typeRole = user.getUser.role === 'ADMIN'
+    console.log(typeRole)
 
     const logOut = async () => {
         let data;
@@ -28,18 +30,31 @@ const NavBar = observer(() => {
                 <NavLink style={{color: 'white', textDecoration: 'none'}} to={LOGIN_ROUTE}>Личный кабинет. Публикации</NavLink>
                 {user.isAuth ?
                     <Nav className="ml-auto">
-                        <Button
-                            variant={'outline-secondary'}
-                            style={{color: 'white', boxShadow: "none"}}
-                            onClick={() => setAdminPanelVisible(true)}
-                        >Админ панель</Button>
-                        <AdminPanel show={adminPanelVisible} onHide={() => setAdminPanelVisible(false)}/>
-                        <Button
-                            variant={'outline-secondary'}
-                            style={{color: 'white', boxShadow: "none", marginLeft: '10px'}}
-                            onClick={logOut}
-                        >
-                            Выйти</Button>
+                        {typeRole ?
+                            <Nav className="ml-auto">
+                                <Button
+                                    variant={'outline-secondary'}
+                                    style={{color: 'white', boxShadow: "none"}}
+                                    onClick={() => setAdminPanelVisible(true)}
+                                >Админ панель</Button>
+                                <AdminPanel show={adminPanelVisible} onHide={() => setAdminPanelVisible(false)}/>
+                                <Button
+                                    variant={'outline-secondary'}
+                                    style={{color: 'white', boxShadow: "none", marginLeft: '10px'}}
+                                    onClick={logOut}
+                                >
+                                    Выйти</Button>
+                            </Nav>
+                            :
+                            <Nav className="ml-auto">
+                                <Button
+                                    variant={'outline-secondary'}
+                                    style={{color: 'white', boxShadow: "none", marginLeft: '10px'}}
+                                    onClick={logOut}
+                                >
+                                    Выйти</Button>
+                            </Nav>
+                        }
                     </Nav>
                     :
                     <Nav className="ml-auto" style={{color: 'white'}}>

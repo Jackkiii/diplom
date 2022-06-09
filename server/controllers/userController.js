@@ -15,17 +15,36 @@ class UserController {
     async registration(req, res, next){
         try {
             const {email, password, full_name, tel, groupId, role} = req.body
-            if (!email || !password) {
-                return next(ApiError.badRequest('Некорректный email или пароль'))
+            if (!email || !password|| !full_name|| !tel|| !groupId) {
+                return next(ApiError.badRequest('Все поля обязательно должны быть заполнены'))
             }
             const candidate = await User.findOne({where: {email}})
             if (candidate) {
-                return next(ApiError.badRequest('Пользователь с таким email уже существует'))
+                return next(ApiError.badRequest(`Пользователь с email - ${email} уже существует`))
             }
             const hashPassword = await bcrypt.hash(password, 5)
             const user = await User.create({email: email, groupId: groupId, password: hashPassword, role: role,
                 full_name: full_name, tel: tel})
             const token = generateJwt(user.id, user.email, user.role, user.full_name, user.tel, user.groupId)
+            return res.json({token})
+        } catch (e) {
+            return next(ApiError.badRequest('Ошибка при регистрации'))
+        }
+    }
+
+    async registrationAdmin(req, res, next){
+        try {
+            const {email, password, role} = req.body
+            if (!email || !password) {
+                return next(ApiError.badRequest('Все поля обязательно должны быть заполнены'))
+            }
+            const candidateAdmin = await User.findOne({where: {email}})
+            if (candidateAdmin) {
+                return next(ApiError.badRequest(`Пользователь с email - ${email} уже существует`))
+            }
+            const hashPassword = await bcrypt.hash(password, 5)
+            const user = await User.create({email: email, password: hashPassword, role: role})
+            const token = generateJwt(user.id, user.email, user.role)
             return res.json({token})
         } catch (e) {
             return next(ApiError.badRequest('Ошибка при регистрации'))

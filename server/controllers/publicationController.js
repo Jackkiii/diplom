@@ -168,6 +168,12 @@ class PublicationController {
         const publication = await Publication.findOne({where: {id}})
         return res.json(publication)
     }
+
+    async getOneByName(req, res){
+        const {name} = req.params
+        const publication = await Publication.findOne({where: {name}})
+        return res.json(publication.name)
+    }
 }
 
 module.exports = new PublicationController()

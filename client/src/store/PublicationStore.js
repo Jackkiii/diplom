@@ -11,6 +11,7 @@ export default class PublicationStore {
         this._selectedData = []
         this._publication = []
         this._name = []
+        this._checkName = []
         this._selectedName = []
         this._page = 1
         this._totalCount = 0
@@ -37,6 +38,10 @@ export default class PublicationStore {
 
     setName(name){
         this._name = name
+    }
+
+    setCheckName(name){
+        this._checkName = name
     }
 
     setSelectedName(name){
@@ -96,6 +101,10 @@ export default class PublicationStore {
 
     get selectedDate(){
         return this._selectedData
+    }
+
+    get checkName(){
+        return this._checkName
     }
 
     get publication(){

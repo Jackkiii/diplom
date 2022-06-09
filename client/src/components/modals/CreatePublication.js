@@ -5,7 +5,7 @@ import {Context} from "../../index";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../../css/style.css'
 import {observer} from "mobx-react-lite";
-import {createPublication, fetchCategories} from "../../http/publicationAPI";
+import {checkPublicationByName, createPublication, fetchCategories} from "../../http/publicationAPI";
 
 const CreatePublication = observer(({show, onHide}) => {
     const {publication} = useContext(Context)
@@ -26,6 +26,32 @@ const CreatePublication = observer(({show, onHide}) => {
 
     const addPublication = () => {
         const formData = new FormData()
+        if (!name || !publication.selectedCategory.id || !date || !author) {
+            if(!publication.selectedCategory.id) {
+                alert('Вы не указали категорию\nВсе поля обязательно должны быть заполнены')
+                return
+            }
+            if(!name) {
+                alert('Вы не указали название\nВсе поля обязательно должны быть заполнены')
+                return
+            }
+            if(!author) {
+                alert('Вы не указали автора\nВсе поля обязательно должны быть заполнены ')
+                return
+            }
+            if(!date) {
+                alert('Вы не указали дату\nВсе поля обязательно должны быть заполнены')
+                return
+            }
+        }
+        checkPublicationByName(name).then(data => publication.setCheckName(data))
+        console.log('инпут', name)
+        console.log('из БД', publication.checkName)
+        if (name === publication.checkName)
+        {
+            alert('Публикация с таким названием уже существует в системе')
+            return
+        }
         formData.append('userId', user.getUser.id)
         formData.append('name', name)
         formData.append('date', date)
@@ -34,7 +60,7 @@ const CreatePublication = observer(({show, onHide}) => {
         formData.append('categoryId', publication.selectedCategory.id)
         formData.append('group_name', user.getUser.groupId)
         console.log(formData)
-        createPublication(formData).then(data => onHide())
+        setTimeout(createPublication(formData).then(data => onHide()), 2000)
     }
 
     return (
