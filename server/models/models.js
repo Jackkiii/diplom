@@ -38,7 +38,7 @@ Publication.belongsTo(User)
 Category.hasMany(Publication)
 Publication.belongsTo(Category)
 
-module.exports = { // Экспортируем все модели, чтобы в дальнейшем в других файлах мы их могли использовать
+module.exports = {
     User,
     Group,
     Publication,

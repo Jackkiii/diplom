@@ -23,7 +23,7 @@ const AdminPanel = observer(({show, onHide}) => {
     const addCategory = () => {
         createCategory({name: valueCategory}).then(data => {
             setValueCategory('')
-            onHide()
+            //onHide()
         })
     }
 
@@ -36,12 +36,13 @@ const AdminPanel = observer(({show, onHide}) => {
     const addGroup= () => {
         createGroup({name: valueGroup}).then(data => {
             setValueGroup('')
-            onHide()
+            //onHide()
         })
     }
 
     const deleteGroup = () => {
-        delGroup({name: user.selectedGroup.name}).then(data => {
+        //console.log(user.selectedGroupDel.name)
+        delGroup({name: user.selectedGroupDel.name}).then(data => {
             console.log('группа удалена')
         })
     }

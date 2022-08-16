@@ -21,10 +21,10 @@ class PublicationController {
         try{
             //const {link_file} = req.body
             const {link_file} = req.params
-            const file = await Publication.findOne({where: {link_file}})
-            const pathFile = path.resolve(__dirname, '..', 'uploads', file.link_file)
+            //const file = await Publication.findOne({where: {link_file}})
+            const pathFile = path.resolve(__dirname, '..', 'uploads', link_file)
             //return res.json(file.link_file)
-            return res.download(pathFile, file.link_file)
+            return res.download(pathFile, link_file)
         } catch (e) {
             next(ApiError.badRequest(e.message))
         }
@@ -155,7 +155,7 @@ class PublicationController {
         try{
             let {userId} = req.params
 
-            const publication = await Publication.findAndCountAll({where: {userId}})
+            const publication = await Publication.findAll({where: {userId}})
 
             return res.json(publication)
         } catch (e) {

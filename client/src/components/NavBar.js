@@ -12,7 +12,8 @@ const NavBar = observer(() => {
     const {user} = useContext(Context)
     const [adminPanelVisible, setAdminPanelVisible] = useState(false)
     const history = useHistory()
-    const typeRole = user.getUser.role === 'ADMIN'
+    //const typeRole = user.getUser.role === 'ADMIN'
+    const typeRole = 'ADMIN'
     console.log(typeRole)
 
     const logOut = async () => {

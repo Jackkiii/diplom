@@ -45,8 +45,6 @@ const CreatePublication = observer(({show, onHide}) => {
             }
         }
         checkPublicationByName(name).then(data => publication.setCheckName(data))
-        console.log('инпут', name)
-        console.log('из БД', publication.checkName)
         if (name === publication.checkName)
         {
             alert('Публикация с таким названием уже существует в системе')

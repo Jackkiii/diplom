@@ -2,15 +2,16 @@ import React, {useContext, useEffect, useState} from "react";
 import { Context } from "../index";
 import ListGroup from "react-bootstrap/ListGroup";
 import {fetchOneGroup} from "../http/userAPI";
-import {saveAs} from "file-saver"
-import axios from "axios";
 import {fetchPublicationListUserId} from "../http/publicationAPI";
+import * as pdfMake from "pdfmake/build/pdfmake";
+import * as pdfFonts from 'pdfmake/build/vfs_fonts';
 
 const UserInfoBar = () => {
     const {user} = useContext(Context);
     const {publication} = useContext(Context);
 
-    const typeRole = user.getUser.role === 'USER'
+    //const typeRole = user.getUser.role === 'USER'
+    const typeRole =  ''
 
     const [group, setGroup] = useState({group: []})
     const [publicationList, setPublicationList] = useState({})
@@ -21,25 +22,33 @@ const UserInfoBar = () => {
             getPublicationList().then(data => setPublicationList(data))
         })
     }, [])
-    //console.log(group.name)
 
     const getPublicationList = () => fetchPublicationListUserId(user.getUser.id).then(data => ({
         name: user.getUser.full_name,
         group: group.name,
-        userId: user.getUser.id,
         list: data,
     }))
 
-    const createAndDownloadPdf = (state) => {
-        console.log(state)
-        axios.post('http://localhost:5000/create-pdf', state)
-            .then(() => axios.get('http://localhost:5000/fetch-pdf', { responseType: 'blob' }))
-            .then((res) => {
-                const pdfBlob = new Blob([res.data], { type: 'application/pdf' });
+    const generatePDF = () => {
+        pdfMake.vfs = pdfFonts.pdfMake.vfs
+        let docInfo = {
+            content: [
+                {
+                    text: 'Список публикаций',
+                    alignment: 'center',
+                    fontSize: 22,
+                    marginBottom:30,
+                }
+                ]
 
-                saveAs(pdfBlob, 'newPdf.pdf');
-            })
-        //console.log(state)
+        }
+        docInfo.content.push({text: `Имя студента: ${user.getUser.full_name}`, alignment: 'right'})
+        docInfo.content.push({text: `Группа студента: ${group.name}`, marginBottom:25, alignment: 'right'})
+        publicationList.list.map(data => {
+            docInfo.content.push({text: `Название публикации: ${data.name}`})
+            docInfo.content.push({text: `Год публикации: ${data.date}`, marginBottom: 10})
+        })
+        pdfMake.createPdf(docInfo).download('Список работ.pdf');
     }
 
   return (
@@ -58,8 +67,8 @@ const UserInfoBar = () => {
                 <ListGroup.Item>Группа: {group.name}</ListGroup.Item>
                 <ListGroup.Item>Телефон: {user.getUser.tel}</ListGroup.Item>
                 <ListGroup.Item
-                style={{cursor: 'pointer', textDecoration: 'underline'}}
-                onClick={createAndDownloadPdf(publicationList)}
+                style={{cursor: 'pointer', textDecoration: 'underline', color: '#0c63e4'}}
+                onClick={generatePDF}
                 >Скачать список публикаций</ListGroup.Item>
             </ListGroup>
         }

@@ -15,7 +15,7 @@ const PersonalCabinet = observer( () => {
 
     useEffect(() => {
         fetchCategories().then(data => publication.setCategories(data))
-        fetchPublicationListUserId(user.getUser.id).then(data => publication.setPublication(data.rows))
+        fetchPublicationListUserId(user.getUser.id).then(data => publication.setPublication(data))
     },[])
 
     return (
